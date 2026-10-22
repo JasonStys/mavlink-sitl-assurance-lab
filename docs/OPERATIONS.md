@@ -56,6 +56,11 @@ Use one job's log, not a concatenation of both matrix jobs. One complete REPORT_
 REPORT_END envelope is required. Truncated, multiple, oversized, duplicate-key or
 schema-invalid data fails; no archived content is executed. Existing output is preserved.
 
+With the official GitHub CLI, plain job logs can also be piped into the same parser:
+`gh api repos/JasonStys/mavlink-sitl-assurance-lab/actions/jobs/JOB_ID/logs --allow-escape-sequences | python tools/extract_report.py - .runtime/recovered-report.json`.
+Replace JOB_ID with the exact completed native job ID. This reads existing logs,
+uses the CLI's normal credential handling and never requests a token in source/argv.
+
 The compact NATIVE_ACCEPTANCE record summarizes assertions, source/build identity,
 counters and outcomes. Full report JSON includes bounded telemetry and trace metadata.
 Trace truncation is explicit. Per-scenario excerpts prioritize actual fault records

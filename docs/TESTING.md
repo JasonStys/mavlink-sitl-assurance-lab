@@ -12,6 +12,7 @@ status messages; preserve failures and distinguish each evidence layer.
 | Native policy falsely claims a fault happened | Correlate receive/send relay-local IDs and inspect actual dropped ACKs independently of aggregate counters. |
 | Command acknowledgement mistaken for motion | Observe native altitude/mode/armed takeoff, HOLD, landing/disarm. |
 | Stale link or low reserve treated as safe | Exact finite dispatch boundaries, actual disconnected blackout recovery and actual simulator battery drain. |
+| A denial merely reported but not enforced | Isolated actual reference-method ordering tests plus native API start attempts during blackout/low reserve; no SDK command/counter effect is allowed. |
 | Restart repeats application commands | Grounded restart, expired old SDK connection, new SDK session and observed grounded state; reference-client command count remains zero. |
 | False green/missing/unsupported report | Exact scenario set, duplicate-name rejection, derived status, source pin/hash and negative envelope tests. |
 | Unsafe import/export | Byte/depth/node limits, duplicate JSON keys, text-only hostile strings, rejected contradictory imports and exclusive report creation. |

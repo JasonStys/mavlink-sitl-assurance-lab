@@ -1,0 +1,277 @@
+{
+  "author": "Jason Stys",
+  "kind": "Measured native CI baseline; not synthetic, hardware evidence or provenance attestation",
+  "workflow_run_url": "https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/runs/39706232209",
+  "framework_source_commit": "8742ed961e3dc15c4743e7826bfe5fe0e2bb573c",
+  "job_ids": {
+    "1.16.1": 119586799417,
+    "1.17.0": 119586799618
+  },
+  "scope": "Both native jobs passed eight scenarios. This workflow's aggregate core status failed only browser-test formatting, corrected subsequently. Check latest main Validation and CodeQL for delivery gates.",
+  "records": [
+    {
+      "version": "1.16.1",
+      "run_id": "3f38777a-e9bd-403c-b764-f7c8b331411f",
+      "created_utc": "2026-10-22T01:36:47.332179+00:00",
+      "autopilot_commit": "94cb2012792b2ae89f0b147cfee53ee31ae550be",
+      "binary_sha256": "c16b894265a41eceb01a5552015ecf17dca96362667cf7e92515eb431bfbaa66",
+      "mavsdk": "4.0.6",
+      "outcome": "passed",
+      "checks": [
+        {
+          "name": "delay",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Observed byte-preserving delivery delay >=240 ms; native telemetry recovers fresh",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 3045.920819999992,
+          "metrics": {
+            "minimum_delay_ms": 250,
+            "observed_deliveries": 999
+          }
+        },
+        {
+          "name": "reorder",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Observed out-of-order packet IDs with native telemetry still usable",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 3046.3701639999954,
+          "metrics": {
+            "observed_order_inversions": 534
+          }
+        },
+        {
+          "name": "duplicate",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Observed repeated delivery of identical packet IDs; reference client remains usable",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 3047.4314399999967,
+          "metrics": {
+            "duplicated_packets": 829,
+            "events_during_window": 3265
+          }
+        },
+        {
+          "name": "blackout",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Six-second packet blackout produces stale disconnected state and dispatch denial, then fresh recovery",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 8045.978222999992,
+          "metrics": {
+            "stale_age_s": 6.16788451299999,
+            "recovered_age_s": 0.06988513300001387,
+            "replayed_commands": 0
+          }
+        },
+        {
+          "name": "interrupted_upload",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Lost mission ACK prevents confirmed upload; remain grounded, inspect then explicitly re-upload",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 2549.842299999995,
+          "metrics": {
+            "unconfirmed_upload": 1,
+            "observed_stored_items": 2,
+            "explicit_reupload": 1
+          }
+        },
+        {
+          "name": "nominal_mission",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Actual native upload, takeoff above 3 m, HOLD, return/landing and disarm",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 25555.434377999973,
+          "metrics": {
+            "takeoff_altitude_m": 3.370000123977661,
+            "disarmed_altitude_m": -0.36900001764297485
+          }
+        },
+        {
+          "name": "low_battery",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Actual simulated battery drops below 25%; independent dispatch gate denies start",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 4030.137697999976,
+          "metrics": {
+            "observed_battery_pct": 19,
+            "dispatch_allowed": 0
+          }
+        },
+        {
+          "name": "autopilot_restart",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Owned process stops, old connection expires, new session is fresh and grounded without command replay",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 14849.66806,
+          "metrics": {
+            "owned_boot_count": 2,
+            "replayed_commands": 0,
+            "fresh_age_s": 0.10119090400002051
+          }
+        }
+      ],
+      "counters": {
+        "received": 22672,
+        "sent": 21530,
+        "dropped": 2225,
+        "duplicated": 1083,
+        "reordered": 534,
+        "queue_drops": 0,
+        "malformed": 0,
+        "high_water": 108,
+        "foreign": 0
+      },
+      "retained_trace_events": 661,
+      "trace_events_seen": 44202,
+      "retained_scenarios": [
+        "autopilot_restart",
+        "blackout",
+        "delay",
+        "duplicate",
+        "interrupted_upload",
+        "low_battery",
+        "nominal_mission",
+        "reorder"
+      ]
+    },
+    {
+      "version": "1.17.0",
+      "run_id": "b5bb4c89-801f-4081-8393-5af701c59f92",
+      "created_utc": "2026-10-22T01:38:38.346127+00:00",
+      "autopilot_commit": "d6f12ad1c4f70ad3230afd7d86e971421e02fef4",
+      "binary_sha256": "3003233c9bd6adf28201df70773d2d6557fad5e86545718e8f359fa314be560d",
+      "mavsdk": "4.0.6",
+      "outcome": "passed",
+      "checks": [
+        {
+          "name": "delay",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Observed byte-preserving delivery delay >=240 ms; native telemetry recovers fresh",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 3047.914780000042,
+          "metrics": {
+            "minimum_delay_ms": 250,
+            "observed_deliveries": 993
+          }
+        },
+        {
+          "name": "reorder",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Observed out-of-order packet IDs with native telemetry still usable",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 3049.3935769999325,
+          "metrics": {
+            "observed_order_inversions": 536
+          }
+        },
+        {
+          "name": "duplicate",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Observed repeated delivery of identical packet IDs; reference client remains usable",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 3050.3859400000692,
+          "metrics": {
+            "duplicated_packets": 830,
+            "events_during_window": 3269
+          }
+        },
+        {
+          "name": "blackout",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Six-second packet blackout produces stale disconnected state and dispatch denial, then fresh recovery",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 8046.542034000026,
+          "metrics": {
+            "stale_age_s": 6.454234703999987,
+            "recovered_age_s": 0.33615040200004387,
+            "replayed_commands": 0
+          }
+        },
+        {
+          "name": "interrupted_upload",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Lost mission ACK prevents confirmed upload; remain grounded, inspect then explicitly re-upload",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 2551.8160240000043,
+          "metrics": {
+            "unconfirmed_upload": 1,
+            "observed_stored_items": 2,
+            "explicit_reupload": 1
+          }
+        },
+        {
+          "name": "nominal_mission",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Actual native upload, takeoff above 3 m, HOLD, return/landing and disarm",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 29075.935077000053,
+          "metrics": {
+            "takeoff_altitude_m": 3.2230000495910645,
+            "disarmed_altitude_m": -0.6570000052452087
+          }
+        },
+        {
+          "name": "low_battery",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Actual simulated battery drops below 25%; independent dispatch gate denies start",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 4030.738147999955,
+          "metrics": {
+            "observed_battery_pct": 17,
+            "dispatch_allowed": 0
+          }
+        },
+        {
+          "name": "autopilot_restart",
+          "status": "passed",
+          "category": "behavior",
+          "expected": "Owned process stops, old connection expires, new session is fresh and grounded without command replay",
+          "observed": "Independent native observations met every scenario oracle",
+          "elapsed_ms": 14903.92861199996,
+          "metrics": {
+            "owned_boot_count": 2,
+            "replayed_commands": 0,
+            "fresh_age_s": 0.38629837899998165
+          }
+        }
+      ],
+      "counters": {
+        "received": 23906,
+        "sent": 22762,
+        "dropped": 2229,
+        "duplicated": 1085,
+        "reordered": 536,
+        "queue_drops": 0,
+        "malformed": 0,
+        "high_water": 109,
+        "foreign": 0
+      },
+      "retained_trace_events": 645,
+      "trace_events_seen": 46668,
+      "retained_scenarios": [
+        "autopilot_restart",
+        "blackout",
+        "delay",
+        "duplicate",
+        "interrupted_upload",
+        "low_battery",
+        "nominal_mission",
+        "reorder"
+      ]
+    }
+  ]
+}

@@ -12,11 +12,13 @@ from pydantic import ValidationError
 from assurance.report import (
     MAX_REPORT_BYTES,
     PINS,
+    DispatchDenied,
     Report,
     dispatch_allowed,
     failure_category,
     load_report,
     outcome,
+    require_grounded_dispatch,
     save_report,
     synthetic_report,
 )
@@ -190,3 +192,28 @@ def test_invalid_calendar_or_non_utc_rejected(stamp):
     data["created_utc"] = stamp
     with pytest.raises(ValidationError):
         Report.model_validate(data)
+
+
+@pytest.mark.parametrize(
+    "change,reason",
+    [
+        ({"age_s": 3}, "stale_or_unavailable_link"),
+        ({"connected": False}, "stale_or_unavailable_link"),
+        ({"battery_pct": 24}, "battery_reserve"),
+        ({"healthy": False}, "health_or_armed"),
+        ({"armed": True}, "health_or_armed"),
+    ],
+)
+def test_dispatch_enforcement_precedes_effect(change, reason):
+    """The API gate raises rather than merely reporting that an unsafe operation would be blocked."""
+    sample = {"age_s": 0.5, "battery_pct": 90, "connected": True, "healthy": True, "armed": False}
+    require_grounded_dispatch(sample)
+    sample.update(change)
+    with pytest.raises(DispatchDenied, match=reason):
+        require_grounded_dispatch(sample)
+
+
+def test_missing_native_observation_cannot_dispatch():
+    """No native sample is unknown, never an invitation to invent safe defaults."""
+    with pytest.raises(DispatchDenied, match="missing_observation"):
+        require_grounded_dispatch(None)

@@ -1,49 +1,103 @@
 # Validation record — 0.1.0
 
-By Jason Stys. Observations are not release certification or an independent human audit.
+By Jason Stys. Measured observations, not operational certification or an independent
+human security audit. Original implementation and review are AI-assisted.
 
-Initial local Windows checks passed the Release C++ policy kernel, including 20,000
-seeded malformed inputs, 50,000 measured forwarding iterations and queue bounds.
-The observed MSVC Release timing was 9,283 microseconds for that synthetic iteration
-loop, not a real-network throughput claim or a portable performance promise.
+## Local core and browser verification
 
-The first Python contract/extraction suite passed 33 cases at 99.02% statement coverage
-of the report contract. The TypeScript suite passed 35 cases at 96.77% statements,
-96.03% branches and 100% functions for the pure validation/filter/graph module.
-These are not whole-application or native SDK coverage percentages. The production
-viewer build and exact formatting passed. Native integration must be proven separately
-by both actual upstream builds and eight required scenarios on each version.
+Windows/Python 3.14 local validation passed **67 Python cases** at **99.15% statement
+coverage of the report contract**, not native SDK/orchestration coverage. Cases include
+exclusive report creation, byte/duplicate-key/finite-value/schema/source/UUID/calendar
+bounds, derived outcomes, planned-stop versus crash classification, downloaded/piped
+log recovery and actual reference-method dispatch ordering with isolated synthetic
+states. Those synthetic unit states are not native flight/integration evidence.
 
-Setup history: the restricted Windows process could not read the Visual Studio SDK
-registry; normal scoped process permissions used the existing installation without
-changing the host. A signed/unsigned C++ comparison was corrected, not suppressed.
-Node's JSON module import attribute was added to browser tests after the first browser
-setup failed. No failed setup attempt counts as acceptance. Thresholds were not lowered.
+The pure TypeScript validation/filter/graph module passed **36 tests** at **96.87%
+statements, 96.15% branches and 100% functions**. The whole UI has no claimed unit
+coverage percentage. **12 actual production-viewer browser journeys** passed across
+Chromium, Firefox and WebKit: strict file import, false-green rejection, inert hostile
+strings, trace filtering, complete JSON download despite view filters, provenance
+warning, help/Esc, WCAG axe tags, author/contact links and 390px overflow. No outbound
+requests occurred in the hostile-import test. Native-shaped browser inputs are clearly
+labeled fixtures and never counted as real native results.
 
-Storage checked before Actions: 62,959,952 current artifact bytes and 8,185,324,614
-separate cache bytes across 96 owned repos. Billing quota/percentage was unavailable.
-Nothing was archived/deleted and no retention/billing settings were changed. New
-workflows upload neither caches nor artifacts; full bounded report JSON remains in
-Actions job logs. No paid resource, real aircraft, external AI provider, private user
-account or host Docker repair was used.
+Release C++ kernel assertions, 20,000 seeded malformed inputs, queue/timer/pair-order
+oracles and 50,000 forwarding iterations passed locally. One initial MSVC Release
+iteration observation was 9,283 microseconds, not a network-throughput SLA or portable
+benchmark guarantee. Linux CI also exercises address/undefined sanitizers. C++ does
+not claim a measured line-coverage percentage. Production output passed unchanged
+50,000-byte JS / 8,000-byte CSS gzip limits. Formatting, strict TS, generated schema,
+file/source navigation and source/header checks passed locally.
 
-Source-linked final native results, browser totals and completed Actions observations
-will be recorded only after those gates actually pass. Missing/failed native work
-must not be replaced by a synthetic fixture or described as operational assurance.
+## Actual native baseline, independently measured
 
-The first native attempt built PX4 1.17.0 and passed all eight actual scenarios in
-[run39705100848](https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/runs/39705100848),
-source `b9706d10e0b80d50d56ba8b8a68839bab0f05594`. Observations included 250ms minimum
-delay, 536 packet-order inversions, 829 duplicated packet IDs, 6.45s stale link,
-two stored mission items despite unconfirmed upload, takeoff at3.208m, 19% actual
-simulated battery, and two owned boots without replay. These are native SIH observations,
-not real flight or proof of every application/autopilot. CodeQL's three language jobs,
-all four core OS/Python jobs and the original nine browser journeys passed.
+Both actual **PX4 1.16.1 and 1.17.0** jobs passed all eight required scenarios at
+framework source `8742ed961e3dc15c4743e7826bfe5fe0e2bb573c` in
+[run 39706232209](https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/runs/39706232209).
+[NATIVE_RESULTS.json](NATIVE_RESULTS.json) records source/executable identity, exact
+job IDs, UTC times, checks/metrics/counters, retained counts and scenario labels.
 
-PX4 1.16.1 failed **before runtime acceptance** because its upstream version-header
-generator indexed missing NuttX tags in a shallow recursive checkout. This was a
-workflow metadata-preparation defect, not observed application/autopilot misbehavior.
-The workflow now fetches official version tags and rechecks the unchanged pinned HEAD;
-upstream source and acceptance assertions were not patched or weakened. Review also
-added tested planned-stop/crash classification, calendar/UUID checks, per-phase packet
-excerpts and trace filtering. Final versions still require their own actual acceptance.
+| Observation | PX4 1.16.1 | PX4 1.17.0 |
+| --- | ---: | ---: |
+| Independently observed minimum delay | 250 ms | 250 ms |
+| Packet-order inversions | 534 | 536 |
+| Duplicated packet IDs | 829 | 830 |
+| Stale age during blackout | 6.168 s | 6.454 s |
+| Stored mission items despite unconfirmed upload | 2 | 2 |
+| Observed takeoff relative altitude | 3.370 m | 3.223 m |
+| Observed low simulated battery | 19% | 17% |
+| Owned boots / replayed application commands | 2 / 0 | 2 / 0 |
+| Retained per-phase trace records | 661 | 645 |
+
+All eight scenario labels appear in each recovered trace excerpt. Observed disarmed
+relative altitudes were -0.369 m and -0.657 m, consistent with simulator estimator bias;
+the acceptance requires disarm and an absolute relative altitude within 2 m. Neither
+SDK acknowledgements nor successful process exits substitute for observed motion.
+Both native dependency audits passed. These are software-in-the-loop observations,
+not hardware, real flight or proof of every application/autopilot/transport.
+
+The aggregate baseline workflow above failed only the new browser test's formatting
+check, even though both native jobs passed. That formatting defect was corrected and
+checked for idempotence; it is not concealed by the native baseline table. The final
+changes also enforce stale/reserve/health/armed guards **before** reference SDK calls;
+native blackout/low-battery scenarios attempt the actual API and require denial with
+an unchanged command count. Every later source revision must obtain its own matching
+[Validation](https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/workflows/validate.yml)
+and [CodeQL](https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/workflows/codeql.yml)
+results. Historical numbers are never assumed proof of a changed implementation.
+
+## Failure history and review
+
+- Restricted Windows setup could not read the Visual Studio SDK registry. Normal
+  scoped process permissions used the existing compiler; no host installation changed.
+- A signed/unsigned C++ comparison was corrected, not suppressed. Release assertions
+  remain active and no coverage/time/size threshold was weakened.
+- Node's JSON import attribute was added after the first browser setup failure.
+  A new chained browser expression needed a second formatter pass; final checks include
+  an explicit formatting verification, not an assumption that one write pass suffices.
+- The first PX4 1.16.1 attempt failed **before runtime acceptance**: upstream's legacy
+  version generator indexed absent NuttX tags in a shallow recursive checkout. The
+  workflow now fetches official metadata tags and rechecks unchanged pinned HEAD.
+  Upstream source/acceptance oracles were not patched. This was build preparation,
+  not observed application/autopilot misbehavior.
+- Review added planned-stop/crash distinction, phase-scoped order oracles, retained
+  per-phase trace selection and actual pre-SDK dispatch-denial checks. Failure and
+  unsupported/not-reached records remain explicit. Earlier failed runs were not deleted.
+
+CodeQL's separate C++ compiler-backed, Python and TypeScript jobs passed without open
+findings at review. Locked dependency audits reported no known vulnerabilities at
+test time, not a guarantee against future flaws. A benign Node NO_COLOR/FORCE_COLOR
+environment warning remains visible; it is not suppressed or counted as a test failure.
+
+## Storage and operational scope
+
+Storage was checked before Actions and again before subsequent validation: 62,959,952
+current artifact bytes and 8,185,324,614 separate cache bytes, across 96 then 97 owned
+repositories. Billing quota/percentage was unavailable. Nothing was archived/deleted,
+and retention/billing policies were not changed. These workflows upload neither
+caches nor artifacts; bounded full report JSON remains retrievable in job logs.
+
+No paid resource, real aircraft, serial/radio link, external AI provider, private user
+account or host Docker repair was used. The viewer is local-only. Independent human
+audit, hardware-in-loop, ArduPilot, production staging/hosting and operational release
+approval are **not performed**, not silently marked passed or implemented.

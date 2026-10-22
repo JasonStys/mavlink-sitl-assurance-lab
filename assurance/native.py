@@ -18,7 +18,7 @@ import time
 from collections import deque
 from pathlib import Path
 
-from assurance.report import PINS
+from assurance.report import PINS, require_grounded_dispatch
 
 
 def require_unused_ports():
@@ -213,6 +213,7 @@ class ReferenceClient:
 
     async def upload(self):
         """Upload a bounded two-point training plan; no real location or arbitrary plan input."""
+        require_grounded_dispatch(await self.sample())
         from mavsdk.plugins.mission import MissionItem, MissionPlan
 
         items = [
@@ -240,14 +241,16 @@ class ReferenceClient:
 
     async def command(self, action):
         """Explicitly invoke only reviewed reference operations; no automatic recovery replay."""
+        if action not in ("start", "hold", "return_to_launch", "arm", "disarm"):
+            raise ValueError("Unknown reference operation")
+        if action in ("start", "arm"):
+            require_grounded_dispatch(await self.sample())
         self.command_count += 1
         if action == "start":
             await self.action.arm()
             await self.mission.start_mission()
         elif action in ("hold", "return_to_launch", "arm", "disarm"):
             await getattr(self.action, action)()
-        else:
-            raise ValueError("Unknown reference operation")
 
     async def close(self):
         """Drain all collectors before native destruction; surface faults after resources release."""

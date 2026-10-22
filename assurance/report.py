@@ -173,6 +173,22 @@ def failure_category(error: Exception, expected_running: bool, process_exited: b
     return "assertion" if isinstance(error, AssertionError) else "infrastructure"
 
 
+class DispatchDenied(RuntimeError):
+    """A reference dispatch was blocked before an SDK call; not an autopilot acknowledgement."""
+
+
+def require_grounded_dispatch(sample: dict | None):
+    """Enforce the independent gate before actual upload/arm/start, not merely in a UI or report."""
+    if sample is None:
+        raise DispatchDenied("missing_observation")
+    if not dispatch_allowed(sample["age_s"], sample["battery_pct"], sample["connected"]):
+        if math.isfinite(sample["battery_pct"]) and not 25 <= sample["battery_pct"] <= 100:
+            raise DispatchDenied("battery_reserve")
+        raise DispatchDenied("stale_or_unavailable_link")
+    if not sample["healthy"] or sample["armed"]:
+        raise DispatchDenied("health_or_armed")
+
+
 def save_report(path: Path, report: Report):
     """Create new evidence exclusively; never overwrite a prior run or silently truncate payload."""
     content = report.model_dump_json(indent=2) + "\n"

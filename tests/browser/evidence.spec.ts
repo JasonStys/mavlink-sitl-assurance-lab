@@ -42,13 +42,11 @@ test("native-shaped fixture stays unverified and trace filtering preserves expor
     ],
   };
   await page.goto("/");
-  await page
-    .getByLabel("Import local report")
-    .setInputFiles({
-      name: "native-shaped.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(report)),
-    });
+  await page.getByLabel("Import local report").setInputFiles({
+    name: "native-shaped.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(report)),
+  });
   await expect(page.getByRole("status")).toContainText("NATIVE CLAIM");
   await expect(page.locator(".trace li")).toHaveCount(2);
   await page.getByLabel("Trace scenario").selectOption("interrupted_upload");

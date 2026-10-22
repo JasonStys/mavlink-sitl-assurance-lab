@@ -39,11 +39,14 @@ def extract(text: str) -> Report:
 def main():
     """Extract from one locally downloaded job log, preserving any existing output evidence."""
     parser = argparse.ArgumentParser(description="Read downloaded log text; never execute it")
-    parser.add_argument("log", type=Path)
+    parser.add_argument("log", type=Path, help="Downloaded log path, or - for piped log text")
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
-    with args.log.open("rb") as source:
-        content = source.read(16 * 1024 * 1024 + 1)
+    if args.log == Path("-"):
+        content = sys.stdin.buffer.read(16 * 1024 * 1024 + 1)
+    else:
+        with args.log.open("rb") as source:
+            content = source.read(16 * 1024 * 1024 + 1)
     if len(content) > 16 * 1024 * 1024:
         raise ValueError("Log exceeds sixteen MiB input budget")
     report = extract(content.decode("utf-8"))

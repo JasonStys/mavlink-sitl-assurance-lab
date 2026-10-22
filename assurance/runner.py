@@ -18,6 +18,7 @@ from assurance.report import (
     PINS,
     SCENARIOS,
     Check,
+    DispatchDenied,
     Observation,
     Report,
     dispatch_allowed,
@@ -113,6 +114,17 @@ class Suite:
             90,
         )
 
+    async def verify_blocked_start(self, reason):
+        """Attempt the actual client API and verify denial occurs before its SDK command counter changes."""
+        before = self.client.command_count
+        try:
+            await self.client.command("start")
+        except DispatchDenied as error:
+            assert str(error) == reason
+        else:
+            raise AssertionError("Unsafe start was not blocked before the SDK call")
+        assert self.client.command_count == before
+
     async def fault(self, name):
         """Measure actual C++ relay events independently of its aggregate fault counters."""
         before = self.relay.seen
@@ -168,6 +180,7 @@ class Suite:
         lost = await self.state()
         assert lost and lost["age_s"] >= 5 and not lost["connected"], lost
         assert not dispatch_allowed(lost["age_s"], lost["battery_pct"], lost["connected"])
+        await self.verify_blocked_start("stale_or_unavailable_link")
         self.capture()
         await self.relay.configure()
         recovered = await self.ready()
@@ -221,7 +234,7 @@ class Suite:
         await self.client.command("hold")
         await self.wait(lambda row: row["armed"] and row["mode"] == "HOLD", 20)
         await self.client.command("return_to_launch")
-        grounded = await self.wait(lambda row: not row["armed"] and row["altitude_m"] < 2, 90)
+        grounded = await self.wait(lambda row: not row["armed"] and abs(row["altitude_m"]) < 2, 90)
         return {
             "takeoff_altitude_m": airborne["altitude_m"],
             "disarmed_altitude_m": grounded["altitude_m"],
@@ -237,6 +250,7 @@ class Suite:
         )  # Grounded SIH, no mission/takeoff command in this scenario.
         low = await self.wait(lambda row: row["battery_pct"] < 25, 30)
         assert not dispatch_allowed(low["age_s"], low["battery_pct"], low["connected"])
+        await self.verify_blocked_start("battery_reserve")
         if low["armed"]:
             await self.client.command("disarm")
         await self.client.param.set_param_float("SIM_BAT_DRAIN", 60.0)
