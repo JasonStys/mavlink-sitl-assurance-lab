@@ -1,0 +1,374 @@
+{
+  "$defs": {
+    "Check": {
+      "additionalProperties": false,
+      "description": "One independent expected/observed assertion group; unsupported never means passed.",
+      "properties": {
+        "name": {
+          "pattern": "^[a-z_]{1,40}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "unsupported"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "behavior",
+            "assertion",
+            "simulator",
+            "infrastructure",
+            "capability"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "expected": {
+          "maxLength": 600,
+          "minLength": 1,
+          "title": "Expected",
+          "type": "string"
+        },
+        "observed": {
+          "maxLength": 600,
+          "minLength": 1,
+          "title": "Observed",
+          "type": "string"
+        },
+        "elapsed_ms": {
+          "maximum": 900000,
+          "minimum": 0,
+          "title": "Elapsed Ms",
+          "type": "number"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "maxProperties": 20,
+          "title": "Metrics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "status",
+        "category",
+        "expected",
+        "observed",
+        "elapsed_ms",
+        "metrics"
+      ],
+      "title": "Check",
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "description": "Arrival-timed native state, not a source-clock timestamp or trajectory prediction.",
+      "properties": {
+        "at_ms": {
+          "maximum": 900000,
+          "minimum": 0,
+          "title": "At Ms",
+          "type": "number"
+        },
+        "phase": {
+          "pattern": "^[a-z_]{1,40}$",
+          "title": "Phase",
+          "type": "string"
+        },
+        "altitude_m": {
+          "maximum": 100,
+          "minimum": -100,
+          "title": "Altitude M",
+          "type": "number"
+        },
+        "battery_pct": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Battery Pct",
+          "type": "number"
+        },
+        "speed_m_s": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Speed M S",
+          "type": "number"
+        },
+        "mode": {
+          "pattern": "^[A-Z_]{1,40}$",
+          "title": "Mode",
+          "type": "string"
+        },
+        "armed": {
+          "title": "Armed",
+          "type": "boolean"
+        },
+        "age_s": {
+          "default": 0,
+          "maximum": 900,
+          "minimum": 0,
+          "title": "Age S",
+          "type": "number"
+        },
+        "connected": {
+          "default": true,
+          "title": "Connected",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "at_ms",
+        "phase",
+        "altitude_m",
+        "battery_pct",
+        "speed_m_s",
+        "mode",
+        "armed",
+        "age_s",
+        "connected"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "Trace": {
+      "additionalProperties": false,
+      "description": "Bounded packet metadata: no raw payload, identity/authentication or CRC-validity claim.",
+      "properties": {
+        "event": {
+          "enum": [
+            "receive",
+            "send"
+          ],
+          "title": "Event",
+          "type": "string"
+        },
+        "at_ms": {
+          "maximum": 900000,
+          "minimum": 0,
+          "title": "At Ms",
+          "type": "integer"
+        },
+        "packet_id": {
+          "minimum": 1,
+          "title": "Packet Id",
+          "type": "integer"
+        },
+        "direction": {
+          "enum": [
+            "to_sdk",
+            "to_px4"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "size": {
+          "maximum": 2049,
+          "minimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "reason": {
+          "enum": [
+            "drop_ack",
+            "drop",
+            "reorder_pair",
+            "duplicate",
+            "delay",
+            "forward",
+            "delivery"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "framing_complete": {
+          "title": "Framing Complete",
+          "type": "boolean"
+        },
+        "ids": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 256,
+          "title": "Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event",
+        "at_ms",
+        "packet_id",
+        "direction",
+        "size",
+        "reason",
+        "framing_complete",
+        "ids"
+      ],
+      "title": "Trace",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Versioned report envelope with recomputed outcome and explicit tested/not-tested capabilities.",
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "run_id": {
+      "pattern": "^[a-f0-9-]{36}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "created_utc": {
+      "maxLength": 40,
+      "minLength": 20,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?\\+00:00$",
+      "title": "Created Utc",
+      "type": "string"
+    },
+    "author": {
+      "const": "Jason Stys",
+      "default": "Jason Stys",
+      "title": "Author",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "native",
+        "synthetic"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "passed",
+        "failed",
+        "partial"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "autopilot": {
+      "const": "PX4",
+      "default": "PX4",
+      "title": "Autopilot",
+      "type": "string"
+    },
+    "version": {
+      "enum": [
+        "1.16.1",
+        "1.17.0"
+      ],
+      "title": "Version",
+      "type": "string"
+    },
+    "source_commit": {
+      "pattern": "^[a-f0-9]{40}$",
+      "title": "Source Commit",
+      "type": "string"
+    },
+    "binary_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Binary Sha256"
+    },
+    "mavsdk": {
+      "const": "4.0.6",
+      "default": "4.0.6",
+      "title": "Mavsdk",
+      "type": "string"
+    },
+    "ardupilot": {
+      "const": "not_implemented",
+      "default": "not_implemented",
+      "title": "Ardupilot",
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/Check"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Checks",
+      "type": "array"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/Observation"
+      },
+      "maxItems": 200,
+      "title": "Observations",
+      "type": "array"
+    },
+    "trace": {
+      "items": {
+        "$ref": "#/$defs/Trace"
+      },
+      "maxItems": 2500,
+      "title": "Trace",
+      "type": "array"
+    },
+    "trace_events_seen": {
+      "minimum": 0,
+      "title": "Trace Events Seen",
+      "type": "integer"
+    },
+    "counters": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "maxProperties": 20,
+      "title": "Counters",
+      "type": "object"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "title": "Notes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "created_utc",
+    "author",
+    "mode",
+    "outcome",
+    "autopilot",
+    "version",
+    "source_commit",
+    "binary_sha256",
+    "mavsdk",
+    "ardupilot",
+    "checks",
+    "observations",
+    "trace",
+    "trace_events_seen",
+    "counters",
+    "notes"
+  ],
+  "title": "Report",
+  "type": "object"
+}

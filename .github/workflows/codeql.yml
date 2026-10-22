@@ -1,0 +1,37 @@
+# Jason Stys: C++ compiler-backed and Python/TypeScript semantic analysis without cache/database uploads.
+name: CodeQL
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '37 11 * * 3'
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  analyze:
+    name: CodeQL / ${{ matrix.language }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {language: cpp, mode: manual}
+          - {language: python, mode: none}
+          - {language: javascript-typescript, mode: none}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d
+        with:
+          languages: '${{ matrix.language }}'
+          build-mode: '${{ matrix.mode }}'
+          queries: security-and-quality
+          trap-caching: false
+          dependency-caching: false
+      - if: matrix.language == 'cpp'
+        run: cmake -S . -B .runtime/codeql -DCMAKE_BUILD_TYPE=Debug && cmake --build .runtime/codeql --parallel 2
+      - uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d
+        with: {upload-database: false}

@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "run_id": "00000000-0000-4000-8000-000000000042",
+  "created_utc": "2026-10-22T00:00:00+00:00",
+  "author": "Jason Stys",
+  "mode": "synthetic",
+  "outcome": "passed",
+  "autopilot": "PX4",
+  "version": "1.17.0",
+  "source_commit": "d6f12ad1c4f70ad3230afd7d86e971421e02fef4",
+  "binary_sha256": null,
+  "mavsdk": "4.0.6",
+  "ardupilot": "not_implemented",
+  "checks": [
+    {
+      "name": "delay",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 1.0
+      }
+    },
+    {
+      "name": "reorder",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 2.0
+      }
+    },
+    {
+      "name": "duplicate",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 3.0
+      }
+    },
+    {
+      "name": "blackout",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 4.0
+      }
+    },
+    {
+      "name": "interrupted_upload",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 5.0
+      }
+    },
+    {
+      "name": "nominal_mission",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 6.0
+      }
+    },
+    {
+      "name": "low_battery",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 7.0
+      }
+    },
+    {
+      "name": "autopilot_restart",
+      "status": "passed",
+      "category": "behavior",
+      "expected": "Synthetic illustrative expectation",
+      "observed": "Synthetic illustrative result; not executed against PX4",
+      "elapsed_ms": 1200.0,
+      "metrics": {
+        "illustrative_value": 8.0
+      }
+    }
+  ],
+  "observations": [
+    {
+      "at_ms": 0.0,
+      "phase": "nominal_mission",
+      "altitude_m": 0.0,
+      "battery_pct": 100.0,
+      "speed_m_s": 1.0,
+      "mode": "HOLD",
+      "armed": false,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 1000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 2.0,
+      "battery_pct": 99.0,
+      "speed_m_s": 1.0,
+      "mode": "MISSION",
+      "armed": true,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 2000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 5.0,
+      "battery_pct": 98.0,
+      "speed_m_s": 1.0,
+      "mode": "MISSION",
+      "armed": true,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 3000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 10.0,
+      "battery_pct": 97.0,
+      "speed_m_s": 1.0,
+      "mode": "MISSION",
+      "armed": true,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 4000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 10.0,
+      "battery_pct": 96.0,
+      "speed_m_s": 1.0,
+      "mode": "MISSION",
+      "armed": true,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 5000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 6.0,
+      "battery_pct": 95.0,
+      "speed_m_s": 1.0,
+      "mode": "MISSION",
+      "armed": true,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 6000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 2.0,
+      "battery_pct": 94.0,
+      "speed_m_s": 1.0,
+      "mode": "MISSION",
+      "armed": true,
+      "age_s": 0,
+      "connected": true
+    },
+    {
+      "at_ms": 7000.0,
+      "phase": "nominal_mission",
+      "altitude_m": 0.0,
+      "battery_pct": 93.0,
+      "speed_m_s": 1.0,
+      "mode": "HOLD",
+      "armed": false,
+      "age_s": 0,
+      "connected": true
+    }
+  ],
+  "trace": [],
+  "trace_events_seen": 0,
+  "counters": {},
+  "notes": [
+    "All values are synthetic. Import a source-linked CI report for native evidence."
+  ]
+}

@@ -1,0 +1,30 @@
+[project]
+name = "mavlink-sitl-assurance-lab"
+version = "0.1.0"
+requires-python = ">=3.12"
+description = "Independent loopback simulator compatibility and fault assurance by Jason Stys"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+
+[tool.coverage.run]
+source = ["assurance"]
+omit = ["assurance/native.py", "assurance/runner.py"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S"]
+ignore = ["E501", "S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S105", "S106"]
+"assurance/native.py" = ["S603"]
+"tools/*" = ["S603"]

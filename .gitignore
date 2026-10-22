@@ -1,0 +1,13 @@
+.runtime/
+.venv/
+node_modules/
+dist/
+coverage/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage*
+test-results/
+playwright-report/
+.env*
+*.db*
