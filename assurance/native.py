@@ -273,6 +273,7 @@ class OwnedSimulator:
         self.log = None
         self.binary_hash = None
         self.boots = 0
+        self.expected_running = False
 
     async def start(self):
         """Verify pinned source and launch SIH with a scrubbed fixed simulator environment."""
@@ -315,6 +316,7 @@ class OwnedSimulator:
             stdout=self.log,
             stderr=subprocess.STDOUT,
         )
+        self.expected_running = True
 
     def healthy_process(self):
         """Distinguish a simulator crash from an assertion about the client/protocol."""
@@ -323,6 +325,7 @@ class OwnedSimulator:
 
     async def stop(self):
         """Terminate only the owned Popen child, including bounded escalation on shutdown."""
+        self.expected_running = False
         if self.process and self.process.poll() is None:
             self.process.terminate()
             try:

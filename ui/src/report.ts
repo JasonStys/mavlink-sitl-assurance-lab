@@ -43,6 +43,7 @@ export type Observation = {
 };
 export type Trace = {
   event: string;
+  phase: string;
   at_ms: number;
   packet_id: number;
   direction: string;
@@ -222,7 +223,7 @@ export function parseReport(text: string): Report {
   if (
     report.trace_events_seen < report.trace.length ||
     Object.values(report.counters).some((value) => value < 0) ||
-    report.notes.some((note) => note.length > 600) ||
+    report.notes.some((note) => [...note].length > 600) ||
     report.trace.some((event) =>
       event.ids.some((id) => id < 0 || id > 0xffffff),
     )

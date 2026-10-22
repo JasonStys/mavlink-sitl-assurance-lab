@@ -75,8 +75,9 @@ Revisit signed provenance and a private evidence store before team/production us
 For datagram B<=2048, pending Q<=256 and retained trace E<=2500: framing O(B),
 policy receive O(B+Q) for pair lookup, queue drain O(Q), no unbounded packet backlog.
 Queued opaque bytes are at most 524,288 plus bounded container overhead. Relay traces
-are drained continuously; the parent retains only E records but cumulative counters
-and seen counts expose truncation. A relay watchdog is fifteen minutes.
+are drained continuously; a live ring and a separate selected per-phase report excerpt
+are each bounded by E records. Fault examples and matching deliveries are prioritized;
+cumulative counters and seen counts expose truncation. A relay watchdog is fifteen minutes.
 
 Report input <=2 MiB; downloaded log input <=16 MiB; observations<=200; eight required
 cases; notes<=12; metrics/counters<=20. JSON/schema work is linear in bounded syntax

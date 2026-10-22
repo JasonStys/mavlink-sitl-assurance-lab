@@ -71,6 +71,7 @@ class Trace(Contract):
     """Bounded packet metadata: no raw payload, identity/authentication or CRC-validity claim."""
 
     event: Literal["receive", "send"]
+    phase: str = Field(default="unknown", pattern=r"^[a-z_]{1,40}$")
     at_ms: int = Field(ge=0, le=900000)
     packet_id: int = Field(ge=1)
     direction: Literal["to_sdk", "to_px4"]
@@ -91,7 +92,9 @@ class Report(Contract):
     """Versioned report envelope with recomputed outcome and explicit tested/not-tested capabilities."""
 
     schema_version: Literal[1] = 1
-    run_id: str = Field(pattern=r"^[a-f0-9-]{36}$")
+    run_id: str = Field(
+        pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+    )
     created_utc: str = Field(
         min_length=20,
         max_length=40,
@@ -161,6 +164,13 @@ def dispatch_allowed(age_s: float, battery_pct: float, connected: bool) -> bool:
         and 25 <= battery_pct <= 100
         and connected
     )
+
+
+def failure_category(error: Exception, expected_running: bool, process_exited: bool):
+    """A planned stopped process is not an autopilot crash; classify only observed failure facts."""
+    if expected_running and process_exited:
+        return "simulator"
+    return "assertion" if isinstance(error, AssertionError) else "infrastructure"
 
 
 def save_report(path: Path, report: Report):

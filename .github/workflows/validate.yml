@@ -80,6 +80,11 @@ jobs:
           path: .runtime/px4
           submodules: recursive
           persist-credentials: false
+      - name: Restore official version tags needed by upstream metadata generators
+        run: |
+          git -C .runtime/px4 fetch --depth=1 origin refs/tags/v${{ matrix.version }}:refs/tags/v${{ matrix.version }}
+          git -C .runtime/px4/platforms/nuttx/NuttX/nuttx fetch --depth=1 --tags origin
+          test "$(git -C .runtime/px4 rev-parse HEAD)" = '${{ matrix.commit }}'
       - run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build bc libeigen3-dev
       - run: python -m pip install --require-hashes -r requirements-native.lock
       - run: cmake -S . -B .runtime/build -DCMAKE_BUILD_TYPE=Release && cmake --build .runtime/build --parallel 2

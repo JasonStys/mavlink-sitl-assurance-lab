@@ -21,6 +21,7 @@ from assurance.report import (
     Observation,
     Report,
     dispatch_allowed,
+    failure_category,
     outcome,
     save_report,
 )
@@ -49,6 +50,30 @@ class Suite:
         self.started = time.monotonic()
         self.phase = "delay"
         self.observations = deque(maxlen=200)
+        self.trace_samples = []
+        self.trace_keys = set()
+        self.phase_first_packet = 0
+
+    def capture(self):
+        """Retain bounded per-phase excerpts so late traffic cannot erase earlier fault examples."""
+        window = [
+            event for event in self.relay.events if event["packet_id"] > self.phase_first_packet
+        ]
+        faults = [
+            event
+            for event in window
+            if event["event"] == "receive"
+            and event["reason"] in {"drop_ack", "drop", "reorder_pair", "duplicate", "delay"}
+        ][-50:]
+        identifiers = {event["packet_id"] for event in faults}
+        selected = [event for event in window if event["packet_id"] in identifiers][-100:] + window[
+            -50:
+        ]
+        for event in selected:
+            key = (event["event"], event["packet_id"], event["at_ms"], event["reason"])
+            if key not in self.trace_keys and len(self.trace_samples) < 2500:
+                self.trace_keys.add(key)
+                self.trace_samples.append({**event, "phase": self.phase})
 
     async def state(self):
         """Record reported state and arrival age, keeping cached/stale values explicitly labeled."""
@@ -91,13 +116,15 @@ class Suite:
     async def fault(self, name):
         """Measure actual C++ relay events independently of its aggregate fault counters."""
         before = self.relay.seen
+        first_packet = max((event["packet_id"] for event in self.relay.events), default=0)
         await self.relay.configure(name, 5000)
         for _ in range(6):
             await asyncio.sleep(0.5)
             await self.state()
+        self.capture()
         await self.relay.configure()
         await self.ready()
-        events = list(self.relay.events)
+        events = [event for event in self.relay.events if event["packet_id"] > first_packet]
         # Packet IDs are relay-local observations, NOT MAVLink sequence numbers.
         receives = {
             item["packet_id"]: item
@@ -141,6 +168,7 @@ class Suite:
         lost = await self.state()
         assert lost and lost["age_s"] >= 5 and not lost["connected"], lost
         assert not dispatch_allowed(lost["age_s"], lost["battery_pct"], lost["connected"])
+        self.capture()
         await self.relay.configure()
         recovered = await self.ready()
         assert self.client.command_count == before
@@ -171,6 +199,7 @@ class Suite:
         )
         sample = await self.state()
         assert sample and not sample["armed"]
+        self.capture()
         await self.relay.configure()
         stored = await self.client.mission.download_mission()
         stored_count = len(stored.mission_items)
@@ -255,6 +284,9 @@ class Suite:
             await self.ready()
             for name in SCENARIOS:
                 self.phase = name
+                self.phase_first_packet = max(
+                    (event["packet_id"] for event in self.relay.events), default=0
+                )
                 started = time.monotonic()
                 metrics = (
                     await self.fault(name)
@@ -272,11 +304,14 @@ class Suite:
                         elapsed_ms=(time.monotonic() - started) * 1000,
                     )
                 )
+                self.capture()
         except Exception as error:
             name = SCENARIOS[len(checks)]
-            category = "assertion" if isinstance(error, AssertionError) else "infrastructure"
-            if self.host.process and self.host.process.poll() is not None:
-                category = "simulator"
+            category = failure_category(
+                error,
+                self.host.expected_running,
+                self.host.process is not None and self.host.process.poll() is not None,
+            )
             checks.append(
                 Check(
                     name=name,
@@ -288,6 +323,7 @@ class Suite:
                 )
             )
         finally:
+            self.capture()
             for close in (self.client.close, self.host.stop, self.relay.close):
                 try:
                     await close()
@@ -324,7 +360,7 @@ class Suite:
             binary_sha256=self.host.binary_hash,
             checks=checks,
             observations=list(self.observations),
-            trace=list(self.relay.events),
+            trace=self.trace_samples,
             trace_events_seen=self.relay.seen,
             counters=self.relay.latest,
             notes=notes,

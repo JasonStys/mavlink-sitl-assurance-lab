@@ -295,14 +295,36 @@ function show(report: Report): void {
     ),
   );
   const traceList = element("ol", "", "trace");
-  for (const event of report.trace.slice(-100))
-    traceList.append(
-      element(
-        "li",
-        `${(event.at_ms / 1000).toFixed(3)} s · #${event.packet_id} · ${event.direction} · ${event.event} / ${event.reason} · IDs ${event.ids.join(", ") || "unknown"} · ${event.size} B`,
-        "mono",
-      ),
+  const traceLabel = element("label", "Trace scenario ");
+  const traceSelect = element("select");
+  for (const name of ["all", ...report.checks.map((check) => check.name)]) {
+    const option = element(
+      "option",
+      name === "all" ? "All retained scenarios" : name.replaceAll("_", " "),
     );
+    option.value = name;
+    traceSelect.append(option);
+  }
+  traceLabel.append(traceSelect);
+  trace.append(traceLabel);
+  /** Filter presentation only; original report and cumulative counts remain unchanged. */
+  function renderTrace(): void {
+    traceList.replaceChildren();
+    const events = report.trace.filter(
+      (event) =>
+        traceSelect.value === "all" || event.phase === traceSelect.value,
+    );
+    for (const event of events.slice(-100))
+      traceList.append(
+        element(
+          "li",
+          `${(event.at_ms / 1000).toFixed(3)} s · ${event.phase} · #${event.packet_id} · ${event.direction} · ${event.event} / ${event.reason} · IDs ${event.ids.join(", ") || "unknown"} · ${event.size} B`,
+          "mono",
+        ),
+      );
+  }
+  traceSelect.addEventListener("change", renderTrace);
+  renderTrace();
   if (!report.trace.length)
     trace.append(element("p", "No packet trace in this synthetic example."));
   const counterList = element(

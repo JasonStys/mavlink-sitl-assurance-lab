@@ -25,6 +25,10 @@ Docker/host services untouched. GitHub-hosted jobs provide clean separate runner
 1. Clone official `https://github.com/PX4/PX4-Autopilot.git` into `.runtime/px4`.
 2. Check out **one exact commit from README**, then initialize that commit's recursive
    submodules. Do not use an unpinned branch, arbitrary binary or different simulator.
+   Preserve/fetch the official release tag and NuttX submodule tags as shown in the
+   workflow: older upstream version-header generation assumes those tags exist.
+   Fetching metadata must not change the pinned HEAD. NuttX is not a tested runtime;
+   these are upstream build-metadata requirements for the POSIX SIH target.
 3. In this repo's virtual environment, install `requirements-native.lock` with
    `python -m pip install --require-hashes -r requirements-native.lock`.
 4. Build the lab relay with `cmake -S . -B .runtime/build -DCMAKE_BUILD_TYPE=Release`
@@ -54,7 +58,9 @@ schema-invalid data fails; no archived content is executed. Existing output is p
 
 The compact NATIVE_ACCEPTANCE record summarizes assertions, source/build identity,
 counters and outcomes. Full report JSON includes bounded telemetry and trace metadata.
-Trace truncation is explicit. Python observation elapsed time and C++ relay elapsed
+Trace truncation is explicit. Per-scenario excerpts prioritize actual fault records
+and matching deliveries, not just the end of the run; the viewer can filter their
+scenario labels. Python observation elapsed time and C++ relay elapsed
 time have separate monotonic origins; do not treat them as precision synchronized clocks.
 
 ## Triage and recovery

@@ -14,6 +14,7 @@ from assurance.report import (
     PINS,
     Report,
     dispatch_allowed,
+    failure_category,
     load_report,
     outcome,
     save_report,
@@ -165,3 +166,27 @@ def test_schema_exports_all_required_scenarios():
     assert schema["additionalProperties"] is False
     assert schema["properties"]["trace"]["maxItems"] == 2500
     assert json.loads(json.dumps(schema))["$defs"]["Trace"]["properties"]["ids"]["maxItems"] == 256
+
+
+@pytest.mark.parametrize(
+    "error,expected_running,exited,category",
+    [
+        (RuntimeError("setup"), False, False, "infrastructure"),
+        (RuntimeError("planned stop"), False, True, "infrastructure"),
+        (AssertionError("bad outcome"), True, False, "assertion"),
+        (RuntimeError("crash"), True, True, "simulator"),
+        (AssertionError("missing state"), True, True, "simulator"),
+    ],
+)
+def test_classification_does_not_blame_planned_stops(error, expected_running, exited, category):
+    """Distinguish observed simulator death from an assertion or infrastructure/setup fault."""
+    assert failure_category(error, expected_running, exited) == category
+
+
+@pytest.mark.parametrize("stamp", ["2026-02-31T00:00:00+00:00", "2026-01-01T00:00:00-07:00"])
+def test_invalid_calendar_or_non_utc_rejected(stamp):
+    """A timestamp is a real UTC calendar value, not just a long enough string."""
+    data = payload()
+    data["created_utc"] = stamp
+    with pytest.raises(ValidationError):
+        Report.model_validate(data)

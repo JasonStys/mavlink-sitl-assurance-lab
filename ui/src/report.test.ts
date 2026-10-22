@@ -9,6 +9,16 @@ function data(): any {
 }
 
 describe("report integrity", () => {
+  it("rejects impossible UTC dates and preserves Unicode codepoint note limits", () => {
+    const r = data();
+    r.created_utc = "2026-02-31T00:00:00+00:00";
+    expect(() => parseReport(JSON.stringify(r))).toThrow("calendar");
+    r.created_utc = example.created_utc;
+    r.notes = ["🚀".repeat(400)];
+    expect(parseReport(JSON.stringify(r)).notes).toHaveLength(1);
+    r.notes = ["🚀".repeat(601)];
+    expect(() => parseReport(JSON.stringify(r))).toThrow();
+  });
   it("round-trips the explicit synthetic example without inventing provenance", () => {
     const report = parseReport(JSON.stringify(data()));
     expect(report.mode).toBe("synthetic");
@@ -102,6 +112,7 @@ describe("report integrity", () => {
     r.trace = [
       {
         event: "receive",
+        phase: "delay",
         at_ms: 1,
         packet_id: 1,
         direction: "to_sdk",

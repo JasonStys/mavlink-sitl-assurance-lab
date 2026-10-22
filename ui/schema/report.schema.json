@@ -149,6 +149,12 @@
           "title": "Event",
           "type": "string"
         },
+        "phase": {
+          "default": "unknown",
+          "pattern": "^[a-z_]{1,40}$",
+          "title": "Phase",
+          "type": "string"
+        },
         "at_ms": {
           "maximum": 900000,
           "minimum": 0,
@@ -202,6 +208,7 @@
       },
       "required": [
         "event",
+        "phase",
         "at_ms",
         "packet_id",
         "direction",
@@ -224,7 +231,7 @@
       "type": "integer"
     },
     "run_id": {
-      "pattern": "^[a-f0-9-]{36}$",
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
       "title": "Run Id",
       "type": "string"
     },

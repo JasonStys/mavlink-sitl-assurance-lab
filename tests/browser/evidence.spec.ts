@@ -1,7 +1,67 @@
 /** Jason Stys: real production UI import, privacy, accessibility and export journeys. Map: docs/SOURCE_MAP.md. */
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { readFile } from "node:fs/promises";
 import fixture from "../../examples/synthetic.json" with { type: "json" };
+
+test("native-shaped fixture stays unverified and trace filtering preserves exported evidence", async ({
+  page,
+}) => {
+  // This is a browser fixture, NOT actual native acceptance; the UI must explicitly distrust its provenance.
+  const report = {
+    ...structuredClone(fixture),
+    mode: "native",
+    binary_sha256: "a".repeat(64),
+    trace_events_seen: 20,
+    notes: [
+      "Synthetic native-shaped browser fixture; not real simulator evidence.",
+    ],
+    trace: [
+      {
+        event: "receive",
+        phase: "blackout",
+        at_ms: 100,
+        packet_id: 21,
+        direction: "to_sdk",
+        size: 12,
+        reason: "drop",
+        framing_complete: true,
+        ids: [0],
+      },
+      {
+        event: "receive",
+        phase: "interrupted_upload",
+        at_ms: 200,
+        packet_id: 22,
+        direction: "to_sdk",
+        size: 12,
+        reason: "drop_ack",
+        framing_complete: true,
+        ids: [47],
+      },
+    ],
+  };
+  await page.goto("/");
+  await page
+    .getByLabel("Import local report")
+    .setInputFiles({
+      name: "native-shaped.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(report)),
+    });
+  await expect(page.getByRole("status")).toContainText("NATIVE CLAIM");
+  await expect(page.locator(".trace li")).toHaveCount(2);
+  await page.getByLabel("Trace scenario").selectOption("interrupted_upload");
+  await expect(page.locator(".trace li")).toHaveCount(1);
+  await expect(page.locator(".trace")).toContainText("drop_ack");
+  const completed = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Download reviewed report" }).click();
+  const path = await (await completed).path();
+  expect(path).not.toBeNull();
+  const saved = JSON.parse(await readFile(path!, "utf8"));
+  expect(saved.trace).toHaveLength(2);
+  expect(saved.trace_events_seen).toBe(20);
+});
 
 test("synthetic evidence, outcome filter, details and download work", async ({
   page,
