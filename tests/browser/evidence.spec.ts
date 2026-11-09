@@ -87,10 +87,11 @@ test("synthetic evidence, outcome filter, details and download work", async ({
 
 test("real file input rejects false green and renders hostile strings as text", async ({
   page,
+  baseURL,
 }) => {
   const external: string[] = [];
   page.on("request", (request) => {
-    if (!request.url().startsWith("http://127.0.0.1:8851/"))
+    if (new URL(request.url()).origin !== new URL(baseURL!).origin)
       external.push(request.url());
   });
   await page.goto("/");

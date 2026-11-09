@@ -23,7 +23,7 @@ export default defineConfig({
     include: ["src/**/*.test.ts"],
     coverage: {
       provider: "v8",
-      include: ["src/report.ts"],
+      include: ["src/report.ts", "src/delivery.ts"],
       reporter: ["text", "json-summary"],
       thresholds: { statements: 90, lines: 90, functions: 90, branches: 80 },
     },
