@@ -1,6 +1,7 @@
 /** Jason Stys: offline evidence review, honest provenance, fault timeline and accessible case inspection. Map: docs/SOURCE_MAP.md. */
 import "./style.css";
 import demo from "../../examples/synthetic.json";
+import { deliveryReview } from "./delivery";
 import {
   filterChecks,
   graphPoints,
@@ -335,7 +336,48 @@ function show(report: Report): void {
     "small",
   );
   trace.append(counterList, traceList);
-  content.append(summary, identity, checks, graph, trace);
+  const review = deliveryReview(report);
+  const delivery = element("section", "", "panel");
+  delivery.append(
+    element("h2", "Retained packet delivery review"),
+    element("p", review.notice),
+  );
+  delivery.append(
+    element(
+      "p",
+      `${review.packets.length} relay IDs · ${review.truncated ? "TRUNCATED TRACE — missing events may be outside retention" : "All reported trace events retained; completeness remains self-reported"}`,
+    ),
+  );
+  const download = element("button", "Download packet review");
+  download.type = "button";
+  download.addEventListener("click", () => {
+    const url = URL.createObjectURL(
+      new Blob([JSON.stringify(review, null, 2)], { type: "application/json" }),
+    );
+    const anchor = element("a");
+    anchor.href = url;
+    anchor.download = `packet-review-${report.run_id}.json`;
+    anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  delivery.append(download);
+  const packetList = element("ul");
+  packetList.setAttribute("aria-label", "Retained packet correlations");
+  for (const packet of review.packets.slice(0, 100))
+    packetList.append(
+      element(
+        "li",
+        `#${packet.packet_id} · ${packet.status} · ${packet.receive_count} receives / ${packet.send_count} sends · local delays ${packet.local_delays_ms.join(", ") || "unavailable"} ms · ${packet.phases.join(", ")}`,
+      ),
+    );
+  delivery.append(
+    element(
+      "p",
+      "First 100 relay IDs displayed; download includes all retained IDs. Extra sends are local relay repetitions, not proof of network duplicates.",
+    ),
+    packetList,
+  );
+  content.append(summary, identity, checks, graph, trace, delivery);
 }
 
 /** Read only a size-bounded selected local file; preserve the prior report if validation fails. */

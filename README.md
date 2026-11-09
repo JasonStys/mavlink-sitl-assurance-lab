@@ -16,6 +16,19 @@ executable or downloaded DUT plugin. No real flight or paid cloud deployment occ
 
 ## What it demonstrates
 
+The evidence viewer now includes a **retained packet delivery review**. Import a
+report, inspect each local relay ID's receive/send correlation and measured local
+delays, and download the complete derived review. It distinguishes intentional
+drops, absent receive/send metadata, repeated sends, ambiguous receives and
+inconsistent metadata. Truncation stays visible; a local send does not prove a
+receiver acknowledgement, and a missing event does not prove network loss. The
+original report, case outcomes and native acceptance rules remain unchanged.
+
+Offline equivalent: `python tools/delivery_review.py --input report.json --output packet-review.json`.
+The output is create-only. The UI displays the first 100 sorted IDs and exports
+all retained IDs (at most 2,500 events). Neither path reads packet payloads or
+attests CRC/signature/authenticity. See [workflow validation](docs/reports/PRACTICAL_WORKFLOWS_20261109.md).
+
 - **Two-version compatibility:** source-pinned PX4 **1.16.1** and **1.17.0**, each
   independently built and tested with native MAVSDK **4.0.6**. ArduPilot is explicitly
   **not implemented or validated**, not a skipped test presented as a pass.
