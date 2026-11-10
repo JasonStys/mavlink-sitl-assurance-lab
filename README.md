@@ -77,20 +77,20 @@ as executable HTML. Use the controlled file picker. Stop the server with Ctrl-C.
 ## Native matrix and eight required scenarios
 
 | PX4 release | Verified source identity required by the launcher |
-| --- | --- |
-| 1.16.1 | `94cb2012792b2ae89f0b147cfee53ee31ae550be` |
-| 1.17.0 | `d6f12ad1c4f70ad3230afd7d86e971421e02fef4` |
+| ----------- | ------------------------------------------------- |
+| 1.16.1      | `94cb2012792b2ae89f0b147cfee53ee31ae550be`        |
+| 1.17.0      | `d6f12ad1c4f70ad3230afd7d86e971421e02fef4`        |
 
-| Scenario | Independent expected behavior |
-| --- | --- |
-| Delay | Match receive/send IDs and observe >=240 ms delay for the 250 ms policy; recover fresh telemetry. |
-| Reorder | Observe actual packet-order inversions while the reference client remains usable. |
-| Duplicate | Observe repeated delivery of the same relay-local ID without losing usable state. |
-| Blackout | Lose six seconds of traffic; observe stale/disconnected state, block dispatch and recover without command replay. |
-| Interrupted upload | Lose real downstream mission ACKs; confirmed success must not be reported. Inspect stored mission, then explicitly re-upload. |
-| Nominal mission | Observe native upload, armed takeoff >3 m, HOLD, return/landing and disarm—not just command acknowledgements. |
-| Low battery | Change actual PX4 simulator battery parameters; observe <25% reserve and deny dispatch in the independent reference gate. |
-| Autopilot restart | Stop only the owned process, expire the old connection, create a new SDK session and observe fresh grounded state without replay. |
+| Scenario           | Independent expected behavior                                                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| Delay              | Match receive/send IDs and observe >=240 ms delay for the 250 ms policy; recover fresh telemetry.                                 |
+| Reorder            | Observe actual packet-order inversions while the reference client remains usable.                                                 |
+| Duplicate          | Observe repeated delivery of the same relay-local ID without losing usable state.                                                 |
+| Blackout           | Lose six seconds of traffic; observe stale/disconnected state, block dispatch and recover without command replay.                 |
+| Interrupted upload | Lose real downstream mission ACKs; confirmed success must not be reported. Inspect stored mission, then explicitly re-upload.     |
+| Nominal mission    | Observe native upload, armed takeoff >3 m, HOLD, return/landing and disarm—not just command acknowledgements.                     |
+| Low battery        | Change actual PX4 simulator battery parameters; observe <25% reserve and deny dispatch in the independent reference gate.         |
+| Autopilot restart  | Stop only the owned process, expire the old connection, create a new SDK session and observe fresh grounded state without replay. |
 
 Native execution requires an **isolated, authorized Linux development host** or the
 provided GitHub-hosted jobs. Leave other host services and Docker installations
@@ -155,21 +155,21 @@ See [TESTING](docs/TESTING.md) and [VALIDATION](docs/VALIDATION.md).
 
 ## Structure and major responsibilities
 
-| File / directory | Responsibility |
-| --- | --- |
-| `native/fault.hpp`, `native/fault.cpp` | Clock/socket-independent framing metadata, bounded deterministic fault policies and counters. |
-| `native/core_tests.cpp` | Release-active independent oracles, malformed corpus and throughput observation. |
-| `native/relay.cpp` | Linux fixed-loopback socket, bounded stdin control, actual packet delivery and metadata trace. |
-| `assurance/report.py` | Finite evidence schema, outcome consistency, independent dispatch gate and exclusive report I/O. |
-| `assurance/native.py` | App-owned simulator/relay, native SDK reference client and cleanup; no arbitrary attachment. |
-| `assurance/runner.py` | Eight genuine scenario oracles and classified failure/report orchestration. |
-| `ui/src/report.ts` | Strict JSON/duplicate-key checks, reviewed generated-schema subset interpreter and graph/filter helpers. |
-| `ui/src/main.ts`, `ui/src/style.css` | Accessible local evidence viewer and responsive presentation. |
-| `ui/schema/`, `examples/` | Deterministic serialization schema and explicitly synthetic example. |
-| `tests/` | Independent report/extraction tests and production browser journeys. |
-| `tools/` | Schema/fixture generation, report recovery, AST source/file indexing and repository gates. |
-| `.github/workflows/` | Multi-OS/core/browser/native acceptance plus three-language CodeQL. |
-| `docs/` | Design decisions, risk model, operations, primary research, validation and exact source/file navigation. |
+| File / directory                       | Responsibility                                                                                           |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `native/fault.hpp`, `native/fault.cpp` | Clock/socket-independent framing metadata, bounded deterministic fault policies and counters.            |
+| `native/core_tests.cpp`                | Release-active independent oracles, malformed corpus and throughput observation.                         |
+| `native/relay.cpp`                     | Linux fixed-loopback socket, bounded stdin control, actual packet delivery and metadata trace.           |
+| `assurance/report.py`                  | Finite evidence schema, outcome consistency, independent dispatch gate and exclusive report I/O.         |
+| `assurance/native.py`                  | App-owned simulator/relay, native SDK reference client and cleanup; no arbitrary attachment.             |
+| `assurance/runner.py`                  | Eight genuine scenario oracles and classified failure/report orchestration.                              |
+| `ui/src/report.ts`                     | Strict JSON/duplicate-key checks, reviewed generated-schema subset interpreter and graph/filter helpers. |
+| `ui/src/main.ts`, `ui/src/style.css`   | Accessible local evidence viewer and responsive presentation.                                            |
+| `ui/schema/`, `examples/`              | Deterministic serialization schema and explicitly synthetic example.                                     |
+| `tests/`                               | Independent report/extraction tests and production browser journeys.                                     |
+| `tools/`                               | Schema/fixture generation, report recovery, AST source/file indexing and repository gates.               |
+| `.github/workflows/`                   | Multi-OS/core/browser/native acceptance plus three-language CodeQL.                                      |
+| `docs/`                                | Design decisions, risk model, operations, primary research, validation and exact source/file navigation. |
 
 Every authored file has a specific responsibility in [FILE_CATALOG](docs/FILE_CATALOG.md).
 Source headers link to [SOURCE_MAP](docs/SOURCE_MAP.md), generated from Python and
@@ -197,3 +197,9 @@ capabilities must remain visible. Never connect this lab to operational aircraft
 
 Contact: [Jason Stys on LinkedIn](https://www.linkedin.com/in/jason-stys-31b30b351/).
 Use public issues only for non-sensitive reproducible questions. See [SECURITY](SECURITY.md).
+
+## Documentation editions
+
+Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
+
+[Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.

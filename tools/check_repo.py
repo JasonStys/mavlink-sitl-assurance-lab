@@ -9,7 +9,12 @@ import re
 import sys
 from pathlib import Path
 
-from docs_index import ROOT, files
+if __package__:
+    from .docs_index import ROOT, files
+    from .publication_text import public_text
+else:
+    from docs_index import ROOT, files
+    from publication_text import public_text
 
 
 def main():
@@ -30,7 +35,7 @@ def main():
     ):
         assert (ROOT / name).is_file(), name
     for path in files():
-        content = path.read_text(encoding="utf-8")
+        content = public_text(path, ROOT)
         assert not re.search(
             r"(?:ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)",
             content,
