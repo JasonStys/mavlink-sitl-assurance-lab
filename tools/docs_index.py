@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import tree_sitter_cpp
+from publication_text import public_text
 from tree_sitter import Language, Parser
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +30,10 @@ EXCLUDED = {
     "playwright-report",
 }
 DESCRIPTIONS = {
+    "docs/handbook.md": "Organized current usage, design, security and validation guidance.",
+    "docs/reports/project-guide.docx": "Reviewed Word project guide with exact public source and historical evidence boundaries.",
+    "docs/reports/publications.json": "Exact Office bytes, page-review receipt and immutable source/workflow observations.",
+    "docs/reports/documentation-refresh-2026-11-09.md": "Observed publication validation and maintenance boundaries.",
     ".gitignore": "Keep private/local runtime data, secrets, dependencies and build output outside Git.",
     ".gitattributes": "Normalize tracked source line endings across operating systems.",
     ".prettierignore": "Keep generated canonical schema and fixture formatting under its generator.",
@@ -116,7 +121,7 @@ def render():
     ]
     for path in files():
         relative = path.relative_to(ROOT).as_posix()
-        content = path.read_text(encoding="utf-8")
+        content = public_text(path, ROOT)
         description = DESCRIPTIONS.get(relative) or next(
             (
                 line.strip(' #/*!-"<>')

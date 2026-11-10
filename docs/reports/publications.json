@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "project": "mavlink-sitl-assurance-lab",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "9705148c159ca546a85c2f9bc174a881b6556bc3",
+  "sourceUrl": "https://github.com/JasonStys/mavlink-sitl-assurance-lab/tree/9705148c159ca546a85c2f9bc174a881b6556bc3",
+  "functionalEvidenceBaseline": "9705148c159ca546a85c2f9bc174a881b6556bc3",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42707717919,
+      "event": "push",
+      "headSha": "9705148c159ca546a85c2f9bc174a881b6556bc3",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/runs/42707717919"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42707717942,
+      "event": "push",
+      "headSha": "9705148c159ca546a85c2f9bc174a881b6556bc3",
+      "name": "Validation",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/mavlink-sitl-assurance-lab/actions/runs/42707717942"
+    }
+  ],
+  "summary": "Review relay-local delay, drop, unobserved and ambiguous packet correlation with exact evidence boundaries.",
+  "rationale": "Helps diagnose simulated transport faults without claiming receiver acknowledgement or loss from incomplete observations.",
+  "limitations": [
+    "A relay send is not receiver acknowledgement or end-to-end delivery proof.",
+    "Missing correlation metadata does not prove loss; imported retention and identity declarations remain self-reported.",
+    "The ledger does not verify CRC, signature, payload authenticity or operational aircraft safety.",
+    "Source-first project with current package/service validation; no public native desktop application release is supplied."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 47213,
+      "sha256": "ae751f52206826baa797edf1c4be7bf1353caa45d2c134ec9a53b2491fe21533",
+      "sourceBaseline": "9705148c159ca546a85c2f9bc174a881b6556bc3",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 7,
+        "renderedPageSha256": {
+          "page-1.png": "f2e0ce3e46944c5c0b6bf9f6100d16d6a8db19b1b956ccb22912117c86e98987",
+          "page-2.png": "e59b1d98877a54bc741e257e1572b62038670c2255bd33dffa59450c2a415172",
+          "page-3.png": "30b4c8fa5d499db5b41815b8775a8ea454e31b5d71c6b714cb45939f99b11455",
+          "page-4.png": "e48a36a5edfa0bc76758141c884c6bc5e09e54c1201fae1700201de51faff7a6",
+          "page-5.png": "8acd7fd51f29959ace3982d29eaf41731f7c3bdc77a68de7fef7b20ed5371861",
+          "page-6.png": "fab3b54c37f790da11700b376a3c41715cd0c6a0316b34db0456630eca2ebf80",
+          "page-7.png": "65157fa577a256bd98dd2b4697e041c12f4cce47ad371848d3fd85c6f7194da5"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}
