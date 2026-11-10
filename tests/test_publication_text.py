@@ -72,3 +72,12 @@ def test_expansion_budget_is_active(tmp_path: Path) -> None:
     )
     with pytest.raises(ValueError, match="Unsupported reviewed"):
         public_text(path, tmp_path)
+
+
+def test_repository_tools_keep_both_package_and_direct_script_modes():
+    """Actual package imports must retain the same scanner used by direct CLI checks."""
+    from tools import check_repo, docs_index
+
+    assert check_repo.ROOT == docs_index.ROOT
+    assert check_repo.public_text is public_text
+    assert docs_index.public_text is public_text

@@ -42,3 +42,9 @@ Ruff, source/catalog regeneration and checks, production bundle budgets and
 These documentation checks do not rerun Linux-only PX4/MAVSDK integration or
 sanitizers; their original hosted gates remain required. No flight runtime,
 private records, installed software or public release bytes are changed.
+
+A subsequent real package-import regression verifies both `tools.docs_index` and
+`tools.check_repo` use the same bounded reader as their direct-script entry points.
+The complete suite now passes 88 tests (nine Office/import cases); the measured
+core denominator and 99.31% result remain unchanged. No broad ImportError fallback
+is used.

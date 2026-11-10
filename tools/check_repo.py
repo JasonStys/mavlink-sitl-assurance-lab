@@ -9,8 +9,12 @@ import re
 import sys
 from pathlib import Path
 
-from docs_index import ROOT, files
-from publication_text import public_text
+if __package__:
+    from .docs_index import ROOT, files
+    from .publication_text import public_text
+else:
+    from docs_index import ROOT, files
+    from publication_text import public_text
 
 
 def main():

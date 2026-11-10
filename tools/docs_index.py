@@ -12,7 +12,11 @@ import sys
 from pathlib import Path
 
 import tree_sitter_cpp
-from publication_text import public_text
+
+if __package__:
+    from .publication_text import public_text
+else:
+    from publication_text import public_text
 from tree_sitter import Language, Parser
 
 ROOT = Path(__file__).resolve().parents[1]
