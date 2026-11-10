@@ -44,6 +44,7 @@ def public_text(path: Path, root: Path) -> str:
                         or member.flag_bits & 1
                         or member.compress_type not in {ZIP_STORED, ZIP_DEFLATED}
                         or "vbaproject" in member.filename.lower()
+                        or "/embeddings/" in member.filename.lower()
                     ):
                         raise ValueError("Unsupported reviewed Office member")
                     if member.filename.endswith((".xml", ".rels")):
