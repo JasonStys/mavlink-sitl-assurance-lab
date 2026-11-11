@@ -569,32 +569,37 @@ File/function/class headers describe responsibilities. Generated schemas/fixture
 | `tests/test_desktop.py` | 125 | `server` |
 | `tests/test_desktop.py` | 125 | `thread` |
 | `tests/test_desktop.py` | 126 | `headers` |
-| `tests/test_desktop.py` | 150 | `test_tokens_are_per_instance(bundle)` |
-| `tests/test_desktop.py` | 152 | `_` |
-| `tests/test_desktop.py` | 152 | `one` |
-| `tests/test_desktop.py` | 152 | `two` |
-| `tests/test_desktop.py` | 157 | `test_package_identity_and_source_mode(bundle, monkeypatch)` |
-| `tests/test_desktop.py` | 163 | `path` |
-| `tests/test_desktop.py` | 165 | `value` |
-| `tests/test_desktop.py` | 175 | `bad` |
-| `tests/test_desktop.py` | 175 | `key` |
-| `tests/test_desktop.py` | 188 | `test_asset_descriptor_cap_change_and_nonregular(bundle, monkeypatch)` |
-| `tests/test_desktop.py` | 190 | `path` |
-| `tests/test_desktop.py` | 207 | `test_bad_or_missing_asset_sets_fail_before_listener(bundle)` |
-| `tests/test_desktop.py` | 219 | `test_source_launcher_opener_and_ctrl_c_control_flow(bundle, monkeypatch, capsys, no_browser)` |
-| `tests/test_desktop.py` | 221 | `calls` |
-| `tests/test_desktop.py` | 223 | `ControlledViewer(class)` |
-| `tests/test_desktop.py` | 224 | `origin` |
-| `tests/test_desktop.py` | 225 | `token` |
-| `tests/test_desktop.py` | 226 | `instance` |
-| `tests/test_desktop.py` | 227 | `metadata` |
-| `tests/test_desktop.py` | 229 | `__init__(self, root, port, metadata)` |
-| `tests/test_desktop.py` | 232 | `__enter__(self)` |
-| `tests/test_desktop.py` | 235 | `__exit__(self, *_args)` |
-| `tests/test_desktop.py` | 238 | `serve_forever(self, **_kwargs)` |
-| `tests/test_desktop.py` | 248 | `output` |
-| `tests/test_desktop.py` | 253 | `test_source_launcher_missing_build_and_privileged_port_fail_closed(tmp_path, monkeypatch, capsys)` |
-| `tests/test_desktop.py` | 260 | `port` |
+| `tests/test_desktop.py` | 147 | `body` |
+| `tests/test_desktop.py` | 155 | `test_authorized_headers_without_confirmation_body_cannot_quit(bundle)` |
+| `tests/test_desktop.py` | 157 | `server` |
+| `tests/test_desktop.py` | 157 | `thread` |
+| `tests/test_desktop.py` | 158 | `headers` |
+| `tests/test_desktop.py` | 168 | `test_tokens_are_per_instance(bundle)` |
+| `tests/test_desktop.py` | 170 | `_` |
+| `tests/test_desktop.py` | 170 | `one` |
+| `tests/test_desktop.py` | 170 | `two` |
+| `tests/test_desktop.py` | 175 | `test_package_identity_and_source_mode(bundle, monkeypatch)` |
+| `tests/test_desktop.py` | 181 | `path` |
+| `tests/test_desktop.py` | 183 | `value` |
+| `tests/test_desktop.py` | 193 | `bad` |
+| `tests/test_desktop.py` | 193 | `key` |
+| `tests/test_desktop.py` | 206 | `test_asset_descriptor_cap_change_and_nonregular(bundle, monkeypatch)` |
+| `tests/test_desktop.py` | 208 | `path` |
+| `tests/test_desktop.py` | 225 | `test_bad_or_missing_asset_sets_fail_before_listener(bundle)` |
+| `tests/test_desktop.py` | 237 | `test_source_launcher_opener_and_ctrl_c_control_flow(bundle, monkeypatch, capsys, no_browser)` |
+| `tests/test_desktop.py` | 239 | `calls` |
+| `tests/test_desktop.py` | 241 | `ControlledViewer(class)` |
+| `tests/test_desktop.py` | 242 | `origin` |
+| `tests/test_desktop.py` | 243 | `token` |
+| `tests/test_desktop.py` | 244 | `instance` |
+| `tests/test_desktop.py` | 245 | `metadata` |
+| `tests/test_desktop.py` | 247 | `__init__(self, root, port, metadata)` |
+| `tests/test_desktop.py` | 250 | `__enter__(self)` |
+| `tests/test_desktop.py` | 253 | `__exit__(self, *_args)` |
+| `tests/test_desktop.py` | 256 | `serve_forever(self, **_kwargs)` |
+| `tests/test_desktop.py` | 266 | `output` |
+| `tests/test_desktop.py` | 271 | `test_source_launcher_missing_build_and_privileged_port_fail_closed(tmp_path, monkeypatch, capsys)` |
+| `tests/test_desktop.py` | 278 | `port` |
 | `tests/test_desktop_package.py` | 24 | `test_freeze_refuses_old_cached_or_prerelease_runtime(version, level, allowed)` |
 | `tests/test_desktop_package.py` | 29 | `test_all_product_version_surfaces_agree()` |
 | `tests/test_desktop_package.py` | 32 | `fixture` |
