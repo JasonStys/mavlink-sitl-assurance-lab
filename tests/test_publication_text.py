@@ -26,6 +26,7 @@ def edition(root: Path, name: str, main: str, text: bytes = b"<document>public</
 @pytest.mark.parametrize(
     "name,main",
     [
+        ("windows-application-guide-0.2.0.docx", "word/document.xml"),
         ("project-guide.docx", "word/document.xml"),
         ("validation-review.docx", "word/document.xml"),
         ("validation-evidence.xlsx", "xl/workbook.xml"),
@@ -84,9 +85,12 @@ def test_repository_tools_keep_both_package_and_direct_script_modes():
 
 
 @pytest.mark.parametrize("member", ["word/vbaProject.bin", "word/embeddings/inert.bin"])
-def test_active_parts_rejected_by_exact_publication_name(tmp_path: Path, member: str) -> None:
+@pytest.mark.parametrize("name", ["project-guide.docx", "windows-application-guide-0.2.0.docx"])
+def test_active_parts_rejected_by_exact_publication_name(
+    tmp_path: Path, member: str, name: str
+) -> None:
     """Real inert ZIP members cannot bypass the exact named Office-text inspection boundary."""
-    path = edition(tmp_path, "project-guide.docx", "word/document.xml")
+    path = edition(tmp_path, name, "word/document.xml")
     with ZipFile(path, "a", compression=ZIP_DEFLATED) as package:
         package.writestr(member, b"inert non-executable regression fixture")
     with pytest.raises(ValueError, match="Unsupported reviewed Office member"):
