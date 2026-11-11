@@ -34,6 +34,10 @@ EXCLUDED = {
     "playwright-report",
 }
 DESCRIPTIONS = {
+    "docs/reports/DESKTOP_CANDIDATE_20261110.md": "Dated local dirty-candidate native, browser, negative and core evidence with explicit unpublished and non-SITL limits.",
+    "docs/DESKTOP.md": "Full offline desktop application import/review/export/stop guidance, build contract and honest native-suite boundary.",
+    "licenses/PYTHON.txt": "Python runtime license retained with the portable application.",
+    "licenses/JSONC-PARSER.txt": "Exact MIT notice for the bundled jsonc-parser 3.3.1 frontend dependency.",
     "docs/reports/office-package-guard-2026-11-10.md": "Dated Office embedded-part guard and actual regression validation results.",
     "docs/handbook.md": "Organized current usage, design, security and validation guidance.",
     "docs/reports/project-guide.docx": "Reviewed Word project guide with exact public source and historical evidence boundaries.",

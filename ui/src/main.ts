@@ -1,5 +1,6 @@
 /** Jason Stys: offline evidence review, honest provenance, fault timeline and accessible case inspection. Map: docs/SOURCE_MAP.md. */
 import "./style.css";
+import { desktopControls } from "./desktop";
 import demo from "../../examples/synthetic.json";
 import { deliveryReview } from "./delivery";
 import {
@@ -408,3 +409,5 @@ exportButton.addEventListener("click", () => {
   anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
+
+void desktopControls();

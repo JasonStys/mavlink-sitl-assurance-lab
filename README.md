@@ -53,6 +53,13 @@ attests CRC/signature/authenticity. See [workflow validation](docs/reports/PRACT
 
 ## Quick start: evidence viewer
 
+A **0.2.0 desktop application candidate** now packages the same complete offline
+viewer with real JSON import, filters, packet review, exports and an owned **Quit
+application** control. It requires no installed development runtime to open.
+The separate Linux PX4/MAVSDK/relay suite is not bundled or represented as Windows
+SITL execution. See [desktop use, packaging and exact limits](docs/DESKTOP.md).
+This source candidate has not yet been published as a downloadable release.
+
 Requires Node.js **24** and npm. From a fresh clone:
 
 ```sh

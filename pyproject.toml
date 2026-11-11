@@ -1,6 +1,6 @@
 [project]
 name = "mavlink-sitl-assurance-lab"
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.12"
 description = "Independent loopback simulator compatibility and fault assurance by Jason Stys"
 
