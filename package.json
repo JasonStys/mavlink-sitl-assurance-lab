@@ -1,6 +1,6 @@
 {
   "name": "mavlink-sitl-assurance-lab",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -13,8 +13,8 @@
     "preview": "vite preview --host 127.0.0.1 --port 8851 --strictPort",
     "test": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "format": "prettier --write ui tests/browser tools/source_index.mjs package.json tsconfig.json vite.config.ts playwright.config.ts",
-    "format:check": "prettier --check ui tests/browser tools/source_index.mjs package.json tsconfig.json vite.config.ts playwright.config.ts",
+    "format": "prettier --write ui tests/browser tools/source_index.mjs tools/native_feature_smoke.mjs package.json tsconfig.json vite.config.ts playwright.config.ts",
+    "format:check": "prettier --check ui tests/browser tools/source_index.mjs tools/native_feature_smoke.mjs package.json tsconfig.json vite.config.ts playwright.config.ts",
     "audit": "npm audit --audit-level=high"
   },
   "dependencies": {

@@ -1,8 +1,13 @@
 /** Jason Stys: local evidence viewer build and explicit utility coverage. Symbols: docs/SOURCE_MAP.md. */
 import { defineConfig } from "vitest/config";
+import { readFileSync } from "node:fs";
+const version = JSON.parse(
+  readFileSync(new URL("./package.json", import.meta.url), "utf8"),
+).version as string;
 const policy =
   "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(version) },
   root: "ui",
   server: {
     host: "127.0.0.1",
