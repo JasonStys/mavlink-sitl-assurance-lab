@@ -210,3 +210,7 @@ Use public issues only for non-sensitive reproducible questions. See [SECURITY](
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+## Native validation follow-up
+
+The [dated CodeQL quality follow-up](docs/reports/NATIVE_CODEQL_20261111.md) explains explicit owner-interrupt handling. Release acceptance remains tied to the exact source tested; historical desktop observations are retained.

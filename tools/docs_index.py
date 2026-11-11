@@ -34,6 +34,7 @@ EXCLUDED = {
     "playwright-report",
 }
 DESCRIPTIONS = {
+    "docs/reports/NATIVE_CODEQL_20261111.md": "Dated actual CodeQL quality corrections, local tests and exact-source release limits.",
     "docs/reports/DESKTOP_CANDIDATE_20261110.md": "Dated local dirty-candidate native, browser, negative and core evidence with explicit unpublished and non-SITL limits.",
     "docs/DESKTOP.md": "Full offline desktop application import/review/export/stop guidance, build contract and honest native-suite boundary.",
     "licenses/PYTHON.txt": "Python runtime license retained with the portable application.",

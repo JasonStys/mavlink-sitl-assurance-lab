@@ -140,10 +140,28 @@ def test_quit_negatives_leave_application_running(bundle, kind, body, expected):
             headers["Content-Type"] = "text/plain"
         elif kind == "transfer-encoding":
             headers["Transfer-Encoding"] = "chunked"
+        if kind != "different-action":
+            # These header failures must reply before reading an attacker-controlled body.
+            # Do not race a second client send against that deliberate early close on Windows.
+            headers["Content-Length"] = str(len(body))
+            body = None
         assert (
             call(server, "/api/desktop/exit", method="POST", headers=headers, body=body)[0]
             == expected
         )
+        assert thread.is_alive() and call(server, "/api/health")[0] == 200
+
+
+def test_authorized_headers_without_confirmation_body_cannot_quit(bundle):
+    """A valid owner token still needs the actual complete body; the existing read deadline refuses omission."""
+    with running(bundle) as (server, thread):
+        headers = {
+            "X-Desktop-Token": server.token,
+            "Origin": server.origin,
+            "Content-Type": "application/json",
+            "Content-Length": "17",
+        }
+        assert call(server, "/api/desktop/exit", method="POST", headers=headers)[0] == 400
         assert thread.is_alive() and call(server, "/api/health")[0] == 200
 
 
@@ -245,7 +263,9 @@ def test_source_launcher_opener_and_ctrl_c_control_flow(bundle, monkeypatch, cap
     assert calls == (
         ["closed"] if no_browser else ["http://127.0.0.1:45678/#desktop=" + "a" * 64, "closed"]
     )
-    assert "Application stopped." in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "Owner interrupt received; closing the local viewer." in output
+    assert "Application stopped." in output
 
 
 def test_source_launcher_missing_build_and_privileged_port_fail_closed(
