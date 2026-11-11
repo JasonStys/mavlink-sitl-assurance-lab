@@ -221,7 +221,7 @@ def main(argv=None) -> int:
             try:
                 server.serve_forever(poll_interval=0.1)
             except KeyboardInterrupt:
-                pass
+                print("Owner interrupt received; closing the local viewer.", flush=True)
         print("Application stopped.", flush=True)
         return 0
     except (OSError, ValueError) as error:

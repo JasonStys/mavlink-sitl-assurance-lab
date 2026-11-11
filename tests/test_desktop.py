@@ -245,7 +245,9 @@ def test_source_launcher_opener_and_ctrl_c_control_flow(bundle, monkeypatch, cap
     assert calls == (
         ["closed"] if no_browser else ["http://127.0.0.1:45678/#desktop=" + "a" * 64, "closed"]
     )
-    assert "Application stopped." in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "Owner interrupt received; closing the local viewer." in output
+    assert "Application stopped." in output
 
 
 def test_source_launcher_missing_build_and_privileged_port_fail_closed(
