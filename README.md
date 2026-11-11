@@ -214,3 +214,14 @@ Start with the [organized handbook](docs/handbook.md) for current usage, design,
 ## Native validation follow-up
 
 The [dated CodeQL quality follow-up](docs/reports/NATIVE_CODEQL_20261111.md) explains explicit owner-interrupt handling. Release acceptance remains tied to the exact source tested; historical desktop observations are retained.
+
+
+## Current installed application guide
+
+The published **0.2.0** application has a [four-page illustrated guide](docs/reports/windows-application-guide-0.2.0.docx) with actual installed screenshots, a practical journey, source excerpts and operating limits. Read its [installed validation report](docs/reports/installed-windows-0.2.0-2026-11-11.md) and [review manifest](docs/reports/windows-application-guide-0.2.0.json) for the exact runtime source and scope. Historical documentation remains available.
+
+New documentation:
+
+- [docs/reports/windows-application-guide-0.2.0.docx](docs/reports/windows-application-guide-0.2.0.docx): Current four-page installed application guide with two actual screenshots, immutable source and operating limits.
+- [docs/reports/windows-application-guide-0.2.0.json](docs/reports/windows-application-guide-0.2.0.json): Exact Word, installed screenshot, immutable code and individually reviewed page identities.
+- [docs/reports/installed-windows-0.2.0-2026-11-11.md](docs/reports/installed-windows-0.2.0-2026-11-11.md): Observed installed workflows, distribution identity, practical instructions and precise validation limits.

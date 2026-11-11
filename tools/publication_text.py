@@ -9,6 +9,7 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZIP_STORED, BadZipFile, ZipFile
 
 EDITION_ROOTS = {
+    "docs/reports/windows-application-guide-0.2.0.docx": "word/document.xml",
     "docs/reports/project-guide.docx": "word/document.xml",
     "docs/reports/validation-review.docx": "word/document.xml",
     "docs/reports/validation-evidence.xlsx": "xl/workbook.xml",

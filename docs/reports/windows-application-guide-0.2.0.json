@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "repository": "mavlink-sitl-assurance-lab",
+  "runtimeVersion": "0.2.0",
+  "runtimeSource": "cd733ce544242a073cab60a3477df18d02558ed1",
+  "createdAt": "2026-11-11T07:11:40.133Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-0.2.0.docx",
+  "sha256": "b1d5f77c956fd4165a241bf7011860c223268c35855d2be7223a7a2c6947e39b",
+  "screenshots": [
+    {
+      "file": "01-imported-failed-report-focused.png",
+      "sha256": "4d75d02d21461aed62d23a46384e0b90fb81e0fa5b72b7cb48014309c1552a14",
+      "width": 1240,
+      "height": 323,
+      "caption": "An expanded imported failed delay case retains its expected and observed evidence; this does not change the report outcome."
+    },
+    {
+      "file": "02-packet-review.png",
+      "sha256": "28de7a254de135699a23bcbd55191099332a297fe16d8430880b0332d8059390",
+      "width": 1240,
+      "height": 317,
+      "caption": "Retained packet observations are reviewed with their explicit correlation and local-delay limits; a send is not a receiver acknowledgement."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "assurance/delivery.py",
+      "first": 12,
+      "last": 32,
+      "sha256": "9227f899781c755d0c45c3d02008b0a99e023ff519d448d28d987160730c6b56",
+      "url": "https://github.com/JasonStys/mavlink-sitl-assurance-lab/blob/cd733ce544242a073cab60a3477df18d02558ed1/assurance/delivery.py#L12"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Real native workflows",
+      "observed": "The unchanged full installed-app consumer passed actual file import, original engine/results, role boundaries where applicable, exports, negative cases and normal owner Quit.",
+      "result": "Passed"
+    },
+    {
+      "name": "Source and security",
+      "observed": "All required main workflows for the runtime revision passed; processed CodeQL analyses reported zero open main alerts before release.",
+      "result": "Passed"
+    },
+    {
+      "name": "Distribution identity",
+      "observed": "All 2 assets matched provider/checksum identities; all 72 installed files remained unchanged during acceptance.",
+      "result": "Verified"
+    },
+    {
+      "name": "PC scope",
+      "observed": "New per-user version folder and individual links verified. Synthetic inputs and isolated outputs only; existing data and Docker were not used or changed.",
+      "result": "Verified"
+    }
+  ],
+  "visualReview": {
+    "approved": true,
+    "reviewer": "audit_space_drone",
+    "ooxmlSchema": "passed",
+    "pages": [
+      {
+        "page": 1,
+        "sha256": "a7eea9f859eecd60e1fb42714b16bbb553363a6678931f3707d3b997f339db20"
+      },
+      {
+        "page": 2,
+        "sha256": "ecfe20f9bc2bf3b258c0d85e0532e26a221c5be31b042e299d70a8c2038fae47"
+      },
+      {
+        "page": 3,
+        "sha256": "a9e1b271123f771cfd220fb8fa6a8f2c8decc7db07ac9df3ae9fb5709f45f27b"
+      },
+      {
+        "page": 4,
+        "sha256": "ce8933415a09fd9a5295e0a6494c55d9a6e81e1ec5c57c5ddad6f0875899e9df"
+      }
+    ],
+    "scope": "All four final pages individually inspected at original resolution; exact installed synthetic screenshots and immutable code; no ordinary user data."
+  }
+}
